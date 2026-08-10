@@ -1,4 +1,4 @@
-# **Plugin Name** Plugin
+# **Kigubbs** Plugin
 
 **Plugin Summary**
 
