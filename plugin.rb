@@ -8,6 +8,8 @@
 # url: TODO
 # required_version: 2.7.0
 
+gem "ulid", "1.4.0"
+
 enabled_site_setting :kigubbs_enabled
 
 module ::Kigubbs
