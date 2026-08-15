@@ -4,9 +4,7 @@ RSpec.describe Kigubbs::MasksController do
   fab!(:user)
   fab!(:other_user, :user)
 
-  before do
-    SiteSetting.kigubbs_enabled = true
-  end
+  before { SiteSetting.kigubbs_enabled = true }
 
   let!(:mask) do
     Kigubbs::Mask.create!(
