@@ -80,4 +80,48 @@ RSpec.describe Kigubbs::MasksController do
       expect(json["updated_at"]).to be_present
     end
   end
+
+  describe "GET /kigubbs/masks/:id.json" do
+    it "requires the user to be logged in" do
+      get "/kigubbs/masks/#{mask.id}.json"
+
+      expect(response.status).to eq(403)
+    end
+
+    it "returns the current user's mask" do
+      sign_in(user)
+
+      get "/kigubbs/masks/#{mask.id}.json"
+
+      expect(response.status).to eq(200)
+
+      json = response.parsed_body["mask"]
+
+      expect(json).to include(
+        "id" => mask.id,
+        "name" => "Test Mask",
+        "character_name" => "Test Character",
+        "maker_name" => "Test Maker",
+        "delivered_on" => "2026-01-02",
+        "debuted_on" => "2026-02-03",
+        "description" => "A test mask.",
+      )
+    end
+
+    it "does not return a mask owned by another user" do
+      sign_in(user)
+
+      get "/kigubbs/masks/#{other_mask.id}.json"
+
+      expect(response.status).to eq(404)
+    end
+
+    it "returns 404 for an unknown mask id" do
+      sign_in(user)
+
+      get "/kigubbs/masks/#{ULID.generate}.json"
+
+      expect(response.status).to eq(404)
+    end
+  end
 end
